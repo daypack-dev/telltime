@@ -15,7 +15,7 @@ depends: [
   "ocaml" {>= "4.08.0"}
   "dune" {>= "1.11.0"}
   "ptime"
-  "daypack-lib" {= "0.0.1"}
+  "daypack-lib" {= "0.0.2"}
 ]
 build: [
   ["dune" "build" "-p" name "-j" jobs ]
