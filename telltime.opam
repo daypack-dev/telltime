@@ -1,7 +1,7 @@
 opam-version: "2.0"
 name: "telltime"
 version: "0.0.1"
-synopsis: "Cli tool for interacting with Daypack time expression engine"
+synopsis: "Cli tool for interacting with Daypack-lib components"
 description: """
 Telltime relies on Daypack-lib, which is WIP. Do not use either for anything serious.
 """
