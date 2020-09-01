@@ -16,6 +16,7 @@ depends: [
   "dune" {>= "1.11.0"}
   "ptime"
   "cmdliner"
+  "oseq"
   "daypack-lib" {= "0.0.2"}
 ]
 build: [

@@ -1,0 +1,9 @@
+let tz_offset_s =
+  Ptime_clock.current_tz_offset_s () |> Option.get |> Option.some
+
+let cur_unix_second =
+  Daypack_lib.Time.Current.cur_unix_second ()
+
+let default_search_years_ahead = 10
+
+let default_time_slot_count = 50
