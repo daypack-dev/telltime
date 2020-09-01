@@ -1,9 +1,9 @@
 opam-version: "2.0"
 name: "telltime"
 version: "0.0.1"
-synopsis: "Cli tool for interacting with Daypack time expression engine"
+synopsis: "Cli tool for interacting with Daypack-lib components"
 description: """
-Telltime relies on Daypack-lib, which is WIP. Do not use it for anything serious.
+Telltime relies on Daypack-lib, which is WIP. Do not use either for anything serious.
 """
 maintainer: "Darren Ldl <darrenldldev@gmail.com>"
 authors: "Daypack developers"
@@ -16,9 +16,10 @@ depends: [
   "dune" {>= "1.11.0"}
   "ptime"
   "cmdliner"
-  "daypack-lib" {= "0.0.2"}
+  "oseq"
+  "daypack-lib" {= "0.0.3"}
 ]
 build: [
-  ["dune" "build" "-p" name "-j" jobs ]
+  ["dune" "build" "-p" name "-j" jobs]
 ]
 install: ["dune" "build" "@install"]
