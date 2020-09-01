@@ -3,7 +3,7 @@ name: "telltime"
 version: "0.0.1"
 synopsis: "Cli tool for interacting with Daypack time expression engine"
 description: """
-Telltime relies on Daypack-lib, which is WIP. Do not use it for anything serious.
+Telltime relies on Daypack-lib, which is WIP. Do not use either for anything serious.
 """
 maintainer: "Darren Ldl <darrenldldev@gmail.com>"
 authors: "Daypack developers"
