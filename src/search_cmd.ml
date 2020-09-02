@@ -32,7 +32,7 @@ let expr_arg =
   let doc = "Time expression" in
   Arg.(required & pos 0 (some string) None & info [] ~docv:"EXPR" ~doc)
 
-let run (search_years_ahead : int) (time_slot_count : int) (output_mode : time_format)(expr : string) :
+let run (search_years_ahead : int) (time_slot_count : int) (time_format : time_format)(expr : string) :
   unit =
   let search_param =
     Misc_utils.make_search_param ~search_years_ahead
@@ -44,24 +44,28 @@ let run (search_years_ahead : int) (time_slot_count : int) (output_mode : time_f
       match Daypack_lib.Time_expr.matching_time_slots search_param expr with
       | Error msg -> print_endline msg
       | Ok s -> (
+          (match time_format with
+           | `Plain_human_readable -> Printf.printf "Time zone offset in seconds: %d\n" Config.tz_offset_s
+           | `Plain_unix_second -> ()
+          );
           match s () with
           | Seq.Nil -> print_endline "No matching time slots"
           | Seq.Cons _ ->
             s
             |> OSeq.take time_slot_count
-            |> (match output_mode with
+            |> (match time_format with
                 | `Plain_human_readable ->
                   Seq.iter (fun (x, y) ->
                       let x =
                         Daypack_lib.Time.To_string
                         .yyyymondd_hhmmss_string_of_unix_second
-                          ~display_using_tz_offset_s:Config.tz_offset_s x
+                          ~display_using_tz_offset_s:(Some Config.tz_offset_s) x
                         |> Result.get_ok
                       in
                       let y =
                         Daypack_lib.Time.To_string
                         .yyyymondd_hhmmss_string_of_unix_second
-                          ~display_using_tz_offset_s:Config.tz_offset_s y
+                          ~display_using_tz_offset_s:(Some Config.tz_offset_s) y
                         |> Result.get_ok
                       in
                       Printf.printf "[%s, %s)\n" x y

@@ -1,5 +1,5 @@
 let tz_offset_s =
-  Ptime_clock.current_tz_offset_s () |> Option.get |> Option.some
+  Ptime_clock.current_tz_offset_s () |> Option.get
 
 let cur_unix_second = Daypack_lib.Time.Current.cur_unix_second ()
 
