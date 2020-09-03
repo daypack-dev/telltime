@@ -21,15 +21,15 @@ Matching time slots (in above time zone):
 Searching for all Australian ACT 2020 public holidays that fall on weekends
 
 ```
-[darren@darrenlaptop telltime]$ telltime search "( \
->   (2020 . jan . 1, 27 . 00:00 to 23:59) \
->   || (2020 . mar . 9 . 00:00 to 23:59) \
->   || (2020 . apr . 10, 11, 12, 13, 25, 27 . 00:00 to 23:59) \
->   || (2020 . jun . 1, 8 . 00:00 to 23:59) \
->   || (2020 . oct . 5 . 00:00 to 23:59) \
->   || (2020 . dec . 25, 26 . 00:00 to 23:59) \
-> ) \
-> && w[sat,sun]hm"
+$ telltime search "( \
+  (2020 . jan . 1, 27 . 00:00 to 23:59) \
+  || (2020 . mar . 9 . 00:00 to 23:59) \
+  || (2020 . apr . 10 to 13, 25, 27 . 00:00 to 23:59) \
+  || (2020 . jun . 1, 8 . 00:00 to 23:59) \
+  || (2020 . oct . 5 . 00:00 to 23:59) \
+  || (2020 . dec . 25, 26 . 00:00 to 23:59) \
+) \
+&& w[sat,sun]hm"
 Searching in time zone offset (seconds)            : 36000
 Search by default starts from (in above time zone) : 2020 Sep 04 00:07:27
 
