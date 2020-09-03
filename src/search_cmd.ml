@@ -48,9 +48,11 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
       match Daypack_lib.Time_expr.matching_time_slots search_param expr with
       | Error msg -> print_endline msg
       | Ok s -> (
-          Printf.printf "Searching in time zone offset (seconds) : %d\n"
+          Printf.printf
+            "Searching in time zone offset (seconds)            : %d\n"
             tz_offset_s;
-          Printf.printf "Search starts from (in above time zone) : %s\n"
+          Printf.printf
+            "Search by default starts from (in above time zone) : %s\n"
             ( Daypack_lib.Time.To_string.yyyymondd_hhmmss_string_of_unix_second
                 ~display_using_tz_offset_s:(Some tz_offset_s)
                 Config.cur_unix_second
