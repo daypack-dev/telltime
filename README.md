@@ -6,7 +6,21 @@ Cli tool for interacting with Daypack-lib components
 #### Search for time slots matching Daypack time expression
 
 ```
-$ 
+$ telltime search --time-slots 10 --years 100 "feb 29 00:00"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 03 19:24:15
+
+Matching time slots (in above time zone) :
+[2024 Feb 29 00:00:00, 2024 Feb 29 00:00:01)
+[2028 Feb 29 00:00:00, 2028 Feb 29 00:00:01)
+[2032 Feb 29 00:00:00, 2032 Feb 29 00:00:01)
+[2036 Feb 29 00:00:00, 2036 Feb 29 00:00:01)
+[2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
+[2044 Feb 29 00:00:00, 2044 Feb 29 00:00:01)
+[2048 Feb 29 00:00:00, 2048 Feb 29 00:00:01)
+[2052 Feb 29 00:00:00, 2052 Feb 29 00:00:01)
+[2056 Feb 29 00:00:00, 2056 Feb 29 00:00:01)
+[2060 Feb 29 00:00:00, 2060 Feb 29 00:00:01)
 ```
 
 #### Get exact time after some duration from now
