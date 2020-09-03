@@ -1,5 +1,5 @@
 # telltime
-Tiny cli tool for evaluating Daypack time expression to matching time slots
+Cli tool for interacting with Daypack-lib components
 
 ## Possible uses
 
