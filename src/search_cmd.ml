@@ -58,7 +58,6 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
                 Config.cur_unix_second
               |> Result.get_ok );
           print_newline ();
-          print_endline "Matching time slots (in above time zone):";
           match s () with
           | Seq.Nil -> print_endline "No matching time slots"
           | Seq.Cons _ -> (
@@ -67,6 +66,7 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
               |>
               match time_format with
               | `Plain_human_readable ->
+                print_endline "Matching time slots (in above time zone):";
                 Seq.iter (fun (x, y) ->
                     let x =
                       Daypack_lib.Time.To_string
@@ -82,6 +82,7 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
                     in
                     Printf.printf "[%s, %s)\n" x y)
               | `Plain_unix_second ->
+                print_endline "Matching time slots:";
                 Seq.iter (fun (x, y) -> Printf.printf "[%Ld, %Ld)\n" x y) ) )
     )
 

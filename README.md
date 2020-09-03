@@ -6,7 +6,7 @@ Cli tool for interacting with Daypack-lib components
 #### Search for time slots matching Daypack time expression
 
 ```
-$ telltime search --time-slots 10 --years 100 "feb 29 00:00"
+$ telltime search --time-slots 5 --years 100 "feb 29 00:00"
 Searching in time zone offset (seconds)            : 36000
 Search by default starts from (in above time zone) : 2020 Sep 03 19:24:15
 
@@ -16,11 +16,25 @@ Matching time slots (in above time zone):
 [2032 Feb 29 00:00:00, 2032 Feb 29 00:00:01)
 [2036 Feb 29 00:00:00, 2036 Feb 29 00:00:01)
 [2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
-[2044 Feb 29 00:00:00, 2044 Feb 29 00:00:01)
-[2048 Feb 29 00:00:00, 2048 Feb 29 00:00:01)
-[2052 Feb 29 00:00:00, 2052 Feb 29 00:00:01)
-[2056 Feb 29 00:00:00, 2056 Feb 29 00:00:01)
-[2060 Feb 29 00:00:00, 2060 Feb 29 00:00:01)
+```
+
+Searching for all Australian ACT 2020 public holidays that fall on weekends
+
+```
+[darren@darrenlaptop telltime]$ telltime search "( \
+>   (2020 . jan . 1, 27 . 00:00 to 23:59) \
+>   || (2020 . mar . 9 . 00:00 to 23:59) \
+>   || (2020 . apr . 10, 11, 12, 13, 25, 27 . 00:00 to 23:59) \
+>   || (2020 . jun . 1, 8 . 00:00 to 23:59) \
+>   || (2020 . oct . 5 . 00:00 to 23:59) \
+>   || (2020 . dec . 25, 26 . 00:00 to 23:59) \
+> ) \
+> && w[sat,sun]hm"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 04 00:07:27
+
+Matching time slots (in above time zone):
+[2020 Dec 26 00:00:00, 2020 Dec 26 23:59:00)
 ```
 
 #### Get exact time after some duration from now
