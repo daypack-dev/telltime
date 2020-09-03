@@ -18,7 +18,29 @@ Matching time slots (in above time zone):
 [2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
 ```
 
+Searching for Australian ACT 2020 public holidays that substitute original holidays due to the original one falling on weekends
+
 ```
+$ telltime search "( \
+>   ( \
+>     ( \
+>       (2020 . jan . 1, 27 . 00:00 to 23:59) \
+>       || (2020 . mar . 9 . 00:00 to 23:59) \
+>       || (2020 . apr . 10, 11, 12, 13, 25, 27 . 00:00 to 23:59) \
+>       || (2020 . jun . 1, 8 . 00:00 to 23:59) \
+>       || (2020 . oct . 5 . 00:00 to 23:59) \
+>       || (2020 . dec . 25, 26 . 00:00 to 23:59) \
+>     ) \
+>     && w[sat,sun]hm \
+>   ) \
+>   >> y[2020]w[mon]hm \
+> ) \
+> && w[mon]hm"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 03 23:41:42
+
+Matching time slots (in above time zone):
+[2020 Dec 28 00:00:00, 2020 Dec 29 00:00:00)
 ```
 
 #### Get exact time after some duration from now
