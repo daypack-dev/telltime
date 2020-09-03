@@ -10,7 +10,7 @@ $ telltime search --time-slots 10 --years 100 "feb 29 00:00"
 Searching in time zone offset (seconds)            : 36000
 Search by default starts from (in above time zone) : 2020 Sep 03 19:24:15
 
-Matching time slots (in above time zone) :
+Matching time slots (in above time zone):
 [2024 Feb 29 00:00:00, 2024 Feb 29 00:00:01)
 [2028 Feb 29 00:00:00, 2028 Feb 29 00:00:01)
 [2032 Feb 29 00:00:00, 2032 Feb 29 00:00:01)

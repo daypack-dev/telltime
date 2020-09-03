@@ -58,7 +58,7 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
                 Config.cur_unix_second
               |> Result.get_ok );
           print_newline ();
-          print_endline "Matching time slots (in above time zone) :";
+          print_endline "Matching time slots (in above time zone):";
           match s () with
           | Seq.Nil -> print_endline "No matching time slots"
           | Seq.Cons _ -> (
