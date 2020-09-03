@@ -5,6 +5,10 @@ Cli tool for interacting with Daypack-lib components
 
 #### Search for time slots matching Daypack time expression
 
+```
+$ 
+```
+
 #### Get exact time after some duration from now
 
 ```
