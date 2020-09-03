@@ -3,6 +3,8 @@ Cli tool for interacting with Daypack-lib components
 
 ## Examples
 
+#### Search for time slots matching Daypack time expression
+
 #### Get exact time after some duration from now
 
 ```
@@ -27,6 +29,13 @@ Now                   : 2020-09-03 15:55:43
 Duration (original)   : 1.5 days 2.7 hours 0.5 minutes
 Duration (normalized) : 1 days 14 hours 42 mins 30 secs
 Now + duration        : 2020-09-05 06:38:13
+```
+
+#### Get time right now
+
+```
+$ telltime now
+2020-09-03 15:57:39
 ```
 
 ## Possible uses
