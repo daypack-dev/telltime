@@ -18,7 +18,7 @@ Matching time slots (in above time zone):
 [2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
 ```
 
-Searching for all Australian ACT 2020 public holidays that fall on weekends
+Searching for all Australia ACT 2020 public holidays that fall on weekends
 
 ```
 $ telltime search "( \
