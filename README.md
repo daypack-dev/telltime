@@ -80,4 +80,4 @@ $ telltime now
 
 - The engine that evaluates the time expression can be accessed via this online [demo](https://daypack-dev.github.io/time-expr-demo/)
 - Note that the online demo may be more limiting than `telltime` itself, due to memory space restriction of JS being run in a browser
-  - In other words, if `telltime` might still return something useful even if the demo failed for a particular input
+  - In other words, `telltime` might still return something useful even if the demo failed for a particular input
