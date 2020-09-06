@@ -18,7 +18,18 @@ Matching time slots (in above time zone):
 [2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
 ```
 
-#### Search for all Australia ACT 2020 public holidays that fall on weekends
+"When exactly is Thursday 9am?"
+
+```
+$ telltime search --time-slots 1 "thu 9am"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 06 17:24:54
+
+Matching time slots (in above time zone):
+[2020 Sep 10 09:00:00, 2020 Sep 10 09:00:01)
+```
+
+Search for all Australia ACT 2020 public holidays that fall on weekends
 
 ```
 $ telltime search "( \
