@@ -31,6 +31,21 @@ Matching time slots (in above time zone):
 [2020 Sep 10 09:00:00, 2020 Sep 11 10:00:00)
 ```
 
+"Would be handy to know what this cron expression refers to"
+
+```
+$ telltime search --time-slots 5 "0 4 8-14 * *"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 06 17:39:56
+
+Matching time slots (in above time zone):
+[2020 Sep 08 04:00:00, 2020 Sep 08 04:01:00)
+[2020 Sep 09 04:00:00, 2020 Sep 09 04:01:00)
+[2020 Sep 10 04:00:00, 2020 Sep 10 04:01:00)
+[2020 Sep 11 04:00:00, 2020 Sep 11 04:01:00)
+[2020 Sep 12 04:00:00, 2020 Sep 12 04:01:00)
+```
+
 Search for all Australia ACT 2020 public holidays that fall on weekends
 
 ```
