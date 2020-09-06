@@ -46,6 +46,24 @@ Matching time slots (in above time zone):
 [2020 Sep 12 04:00:00, 2020 Sep 12 04:01:00)
 ```
 
+"The (insert generic tool name) supports querying based on time, but only in Unix timestamps. If only there is a way of retrieving the timestamps easily."
+
+```
+$ telltime search --time-slots 100 --format unix
+  "2019 dec 1 00:00 to 2019 dec 15 15:00 \
+   || 2020 . jan . 17 to 20, 23 . 13:00 to 22:00"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 06 17:49:01
+
+Matching time slots:
+[1575122400, 1576386000)
+[1579230000, 1579262400)
+[1579316400, 1579348800)
+[1579402800, 1579435200)
+[1579489200, 1579521600)
+[1579748400, 1579780800)
+```
+
 Search for all Australia ACT 2020 public holidays that fall on weekends
 
 ```
@@ -98,7 +116,7 @@ $ telltime now
 2020-09-03 15:57:39
 ```
 
-## Possible uses
+## Possible uses of telltime
 
 - For scripts to check if time is within time slots specified by time expression
 - Looking up the exact date for sentences we often use, e.g. "thu 9am to 12pm"
