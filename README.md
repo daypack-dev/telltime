@@ -46,12 +46,23 @@ Matching time slots (in above time zone):
 [2020 Sep 12 04:00:00, 2020 Sep 12 04:01:00)
 ```
 
-"The (insert generic tool name) supports querying based on time, but only in Unix timestamps. If only there is a way of retrieving the timestamps easily."
+"The (insert generic tool name) supports querying based on time, but only in standard date formats/unix time stamps. If only there is a way of retrieving these easily."
 
 ```
-$ telltime search --time-slots 100 --format unix
-  "2019 dec 1 00:00 to 2019 dec 15 15:00 \
-   || 2020 . jan . 17 to 20, 23 . 13:00 to 22:00"
+$ telltime search --time-slots 100 "2019 dec 1 00:00 to 2019 dec 15 15:00 \
+  || 2020 . jan . 17 to 20, 23 . 13:00 to 22:00"
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 06 17:53:22
+
+Matching time slots (in above time zone):
+[2019 Dec 01 00:00:00, 2019 Dec 15 15:00:00)
+[2020 Jan 17 13:00:00, 2020 Jan 17 22:00:00)
+[2020 Jan 18 13:00:00, 2020 Jan 18 22:00:00)
+[2020 Jan 19 13:00:00, 2020 Jan 19 22:00:00)
+[2020 Jan 20 13:00:00, 2020 Jan 20 22:00:00)
+[2020 Jan 23 13:00:00, 2020 Jan 23 22:00:00)
+$ telltime search --time-slots 100 --format unix "2019 dec 1 00:00 to 2019 dec 15 15:00 \
+  || 2020 . jan . 17 to 20, 23 . 13:00 to 22:00"
 Searching in time zone offset (seconds)            : 36000
 Search by default starts from (in above time zone) : 2020 Sep 06 17:49:01
 
