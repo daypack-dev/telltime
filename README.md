@@ -5,6 +5,8 @@ Cli tool for interacting with Daypack-lib components
 
 #### Search for time slots matching Daypack time expression
 
+"Hm, I wonder what years have Febuary 29th?"
+
 ```
 $ telltime search --time-slots 5 --years 100 "feb 29 00:00"
 Searching in time zone offset (seconds)            : 36000
@@ -18,15 +20,15 @@ Matching time slots (in above time zone):
 [2040 Feb 29 00:00:00, 2040 Feb 29 00:00:01)
 ```
 
-"When exactly is Thursday 9am?"
+"When exactly is Thursday 9am to Friday 10am?"
 
 ```
-$ telltime search --time-slots 1 "thu 9am"
+$ telltime search --time-slots 1 "thu 9am to friday 10am"
 Searching in time zone offset (seconds)            : 36000
-Search by default starts from (in above time zone) : 2020 Sep 06 17:24:54
+Search by default starts from (in above time zone) : 2020 Sep 06 17:33:22
 
 Matching time slots (in above time zone):
-[2020 Sep 10 09:00:00, 2020 Sep 10 09:00:01)
+[2020 Sep 10 09:00:00, 2020 Sep 11 10:00:00)
 ```
 
 Search for all Australia ACT 2020 public holidays that fall on weekends
