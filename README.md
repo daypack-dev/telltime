@@ -1,6 +1,9 @@
 # telltime
 Cli tool for interacting with Daypack-lib components
 
+## Warning
+Both telltime and Daypack-lib are WIP. Do not use either of them for anything serious.
+
 ## Examples
 
 #### Search for time slots matching Daypack time expression
