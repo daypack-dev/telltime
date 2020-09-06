@@ -75,6 +75,26 @@ Matching time slots:
 [1579748400, 1579780800)
 ```
 
+"I have a bunch of time ranges, but some of them overlap, and they are not in the right order. If only there is a way to combine and sort them easily."
+
+```
+$ telltime search --time-slots 1000 "2020 . jan . 1, 10, 20 . 13:00 to 14:00 || 2019 dec 25 13:00 || 2019 dec 25 10am to 17:00 || 2020 jan 5 10am to 1:30pm || 2020 . jan . 7 to 12 . 9:15am to 2:45pm "
+Searching in time zone offset (seconds)            : 36000
+Search by default starts from (in above time zone) : 2020 Sep 06 18:01:12
+
+Matching time slots (in above time zone):
+[2019 Dec 25 10:00:00, 2019 Dec 25 17:00:00)
+[2020 Jan 01 13:00:00, 2020 Jan 01 14:00:00)
+[2020 Jan 05 10:00:00, 2020 Jan 05 13:30:00)
+[2020 Jan 07 09:15:00, 2020 Jan 07 14:45:00)
+[2020 Jan 08 09:15:00, 2020 Jan 08 14:45:00)
+[2020 Jan 09 09:15:00, 2020 Jan 09 14:45:00)
+[2020 Jan 10 09:15:00, 2020 Jan 10 14:45:00)
+[2020 Jan 11 09:15:00, 2020 Jan 11 14:45:00)
+[2020 Jan 12 09:15:00, 2020 Jan 12 14:45:00)
+[2020 Jan 20 13:00:00, 2020 Jan 20 14:00:00)
+```
+
 Search for all Australia ACT 2020 public holidays that fall on weekends
 
 ```
