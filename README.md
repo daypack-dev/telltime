@@ -81,7 +81,11 @@ Matching time slots:
 "I have a bunch of time ranges, but some of them overlap, and they are not in the right order. If only there is a way to combine and sort them easily."
 
 ```
-$ telltime search --time-slots 1000 "2020 . jan . 1, 10, 20 . 13:00 to 14:00 || 2019 dec 25 13:00 || 2019 dec 25 10am to 17:00 || 2020 jan 5 10am to 1:30pm || 2020 . jan . 7 to 12 . 9:15am to 2:45pm "
+$ telltime search --time-slots 1000 "2020 . jan . 1, 10, 20 . 13:00 to 14:00 \
+  || 2019 dec 25 13:00 \
+  || 2019 dec 25 10am to 17:00 \
+  || 2020 jan 5 10am to 1:30pm \
+  || 2020 . jan . 7 to 12 . 9:15am to 2:45pm"
 Searching in time zone offset (seconds)            : 36000
 Search by default starts from (in above time zone) : 2020 Sep 06 18:01:12
 
