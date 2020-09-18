@@ -41,6 +41,7 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
   let search_param =
     Misc_utils.make_search_param ~tz_offset_s ~search_years_ahead
       ~from_unix_second:Config.cur_unix_second
+    |> Result.get_ok
   in
   match Daypack_lib.Time_expr.of_string expr with
   | Error msg -> print_endline msg
