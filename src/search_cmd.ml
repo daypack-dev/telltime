@@ -69,13 +69,15 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
           | Seq.Cons _ ->
             s
             |> OSeq.take time_slot_count
-            |> Seq.iter (fun ts ->
+            |> OSeq.iteri (fun i ts ->
                 match
                   Daypack_lib.Time.To_string.string_of_time_slot
                     ~format:format_string
                     ~display_using_tz_offset_s:(Some tz_offset_s) ts
                 with
-                | Ok s -> Printf.printf "%s%s" s sep
+                | Ok s ->
+                  if i = 0 then Printf.printf "%s" s
+                  else Printf.printf "%s%s" sep s
                 | Error msg -> Printf.printf "Error: %s\n" msg)
             (* |>
              * match time_format with
