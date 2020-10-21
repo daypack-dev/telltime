@@ -77,7 +77,8 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
                 with
                 | Ok s ->
                   if i = 0 then Printf.printf "%s" s
-                  else Printf.printf "%s%s" sep s
+                  else Printf.printf "%s%s" sep s;
+                  print_newline ()
                 | Error msg -> Printf.printf "Error: %s\n" msg)
             (* |>
              * match time_format with
