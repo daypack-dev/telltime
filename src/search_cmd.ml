@@ -66,29 +66,27 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
           Printf.printf
             "Searching in time zone offset (seconds)            : %d\n"
             tz_offset_s;
-          match Timere.Date_time.sprintf format_string cur_date_time with
-          | Error msg -> Printf.printf "Error: %s\n" msg
-          | Ok start_str -> (
-              Printf.printf
-                "Search by default starts from (in above time zone) : %s\n"
-                start_str;
-              print_newline ();
-              match s () with
-              | Seq.Nil -> print_endline "No matching time slots"
-              | Seq.Cons _ ->
-                s
-                |> OSeq.take time_slot_count
-                |> OSeq.iteri (fun i ts ->
-                    match
-                      Timere.sprintf_interval
-                        ~display_using_tz_offset_s:tz_offset_s
-                        format_string ts
-                    with
-                    | Ok s ->
-                      if i = 0 then Printf.printf "%s" s
-                      else Printf.printf "%s%s" sep s
-                    | Error msg -> Printf.printf "Error: %s\n" msg);
-                print_newline () ) ) )
+          Printf.printf
+            "Search by default starts from (in above time zone) : %s\n"
+            ( Result.get_ok
+              @@ Timere.Date_time.sprintf Config.default_date_time_format_string
+                cur_date_time );
+          print_newline ();
+          match s () with
+          | Seq.Nil -> print_endline "No matching time slots"
+          | Seq.Cons _ ->
+            s
+            |> OSeq.take time_slot_count
+            |> OSeq.iteri (fun i ts ->
+                match
+                  Timere.sprintf_interval
+                    ~display_using_tz_offset_s:tz_offset_s format_string ts
+                with
+                | Ok s ->
+                  if i = 0 then Printf.printf "%s" s
+                  else Printf.printf "%s%s" sep s
+                | Error msg -> Printf.printf "Error: %s\n" msg);
+            print_newline () ) )
 
 let cmd =
   ( (let open Term in
