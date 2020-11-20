@@ -27,8 +27,7 @@ let format_string_arg =
   let doc = "Format string" in
   let open Arg in
   value
-  & opt string
-    Config.default_interval_format_string
+  & opt string Config.default_interval_format_string
   & info [ "format" ] ~doc
 
 let sep_arg =
@@ -45,23 +44,21 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
   | Error msg -> print_endline msg
   | Ok timere -> (
       let cur_date_time =
-        Result.get_ok @@ Timere.Date_time.cur ~tz_offset_s_of_date_time:(tz_offset_s) ()
+        Result.get_ok
+        @@ Timere.Date_time.cur ~tz_offset_s_of_date_time:tz_offset_s ()
       in
       let search_start_timere =
-        Result.get_ok @@
-        Timere.of_date_time cur_date_time
+        Result.get_ok @@ Timere.of_date_time cur_date_time
       in
       let search_end_exc_timere =
-        Timere.(
-          shift (Result.get_ok @@ Duration.make ~days:(search_years_ahead * 365) ())
-            search_start_timere
-        )
+        let open Timere in
+        shift
+          (Result.get_ok @@ Duration.make ~days:(search_years_ahead * 365) ())
+          search_start_timere
       in
       let timere =
-        Timere.(
-          inter timere
-            (interval_exc search_start_timere search_end_exc_timere)
-        )
+        let open Timere in
+        inter timere (interval_exc search_start_timere search_end_exc_timere)
       in
       match Timere.resolve ~search_using_tz_offset_s:tz_offset_s timere with
       | Error msg -> print_endline msg
@@ -69,33 +66,29 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
           Printf.printf
             "Searching in time zone offset (seconds)            : %d\n"
             tz_offset_s;
-          match Timere.Date_time.sprintf format_string
-                  cur_date_time
-          with
+          match Timere.Date_time.sprintf format_string cur_date_time with
           | Error msg -> Printf.printf "Error: %s\n" msg
-          | Ok start_str ->
-            Printf.printf
-              "Search by default starts from (in above time zone) : %s\n" start_str;
-            print_newline ();
-            match s () with
-            | Seq.Nil -> print_endline "No matching time slots"
-            | Seq.Cons _ ->
-              s
-              |> OSeq.take time_slot_count
-              |> OSeq.iteri (fun i ts ->
-                  match
-                    Timere.sprintf_interval
-                      ~display_using_tz_offset_s:tz_offset_s
-                      format_string
-                      ts
-                  with
-                  | Ok s ->
-                    if i = 0 then Printf.printf "%s" s
-                    else Printf.printf "%s%s" sep s
-                  | Error msg -> Printf.printf "Error: %s\n" msg);
-              print_newline ()
-        )
-    )
+          | Ok start_str -> (
+              Printf.printf
+                "Search by default starts from (in above time zone) : %s\n"
+                start_str;
+              print_newline ();
+              match s () with
+              | Seq.Nil -> print_endline "No matching time slots"
+              | Seq.Cons _ ->
+                s
+                |> OSeq.take time_slot_count
+                |> OSeq.iteri (fun i ts ->
+                    match
+                      Timere.sprintf_interval
+                        ~display_using_tz_offset_s:tz_offset_s
+                        format_string ts
+                    with
+                    | Ok s ->
+                      if i = 0 then Printf.printf "%s" s
+                      else Printf.printf "%s%s" sep s
+                    | Error msg -> Printf.printf "Error: %s\n" msg);
+                print_newline () ) ) )
 
 let cmd =
   ( (let open Term in
