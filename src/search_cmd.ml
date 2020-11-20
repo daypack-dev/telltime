@@ -28,9 +28,7 @@ let format_string_arg =
   let open Arg in
   value
   & opt string
-    "[{syear} {smon:Xxx} {smday:0X} {swday:Xxx} \
-     {shour:0X}:{smin:0X}:{ssec:0X}, {eyear} {emon:Xxx} {emday:0X} \
-     {ewday:Xxx} {ehour:0X}:{emin:0X}:{esec:0X})"
+    Config.default_interval_format_string
   & info [ "format" ] ~doc
 
 let sep_arg =
@@ -43,64 +41,61 @@ let expr_arg =
 
 let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
     (format_string : string) (sep : string) (expr : string) : unit =
-  let search_param =
-    Misc_utils.make_search_param ~tz_offset_s ~search_years_ahead
-      ~from_unix_second:Config.cur_unix_second
-    |> Result.get_ok
-  in
-  match Daypack_lib.Time_expr.of_string expr with
+  match Timere_parse.timere expr with
   | Error msg -> print_endline msg
-  | Ok expr -> (
-      match Daypack_lib.Time_expr.matching_time_slots search_param expr with
+  | Ok timere -> (
+      let cur_date_time =
+        Result.get_ok @@ Timere.Date_time.cur ~tz_offset_s_of_date_time:(tz_offset_s) ()
+      in
+      let search_start_timere =
+        Result.get_ok @@
+        Timere.of_date_time cur_date_time
+      in
+      let search_end_exc_timere =
+        Timere.(
+          shift (Result.get_ok @@ Duration.make ~days:(search_years_ahead * 365) ())
+            search_start_timere
+        )
+      in
+      let timere =
+        Timere.(
+          inter timere
+            (interval_exc search_start_timere search_end_exc_timere)
+        )
+      in
+      match Timere.resolve ~search_using_tz_offset_s:tz_offset_s timere with
       | Error msg -> print_endline msg
       | Ok s -> (
           Printf.printf
             "Searching in time zone offset (seconds)            : %d\n"
             tz_offset_s;
-          Printf.printf
-            "Search by default starts from (in above time zone) : %s\n"
-            ( Daypack_lib.Time.To_string.yyyymondd_hhmmss_string_of_unix_second
-                ~display_using_tz_offset_s:(Some tz_offset_s)
-                Config.cur_unix_second
-              |> Result.get_ok );
-          print_newline ();
-          match s () with
-          | Seq.Nil -> print_endline "No matching time slots"
-          | Seq.Cons _ ->
-            s
-            |> OSeq.take time_slot_count
-            |> OSeq.iteri (fun i ts ->
-                match
-                  Daypack_lib.Time.To_string.string_of_time_slot
-                    ~format:format_string
-                    ~display_using_tz_offset_s:(Some tz_offset_s) ts
-                with
-                | Ok s ->
-                  if i = 0 then Printf.printf "%s" s
-                  else Printf.printf "%s%s" sep s
-                | Error msg -> Printf.printf "Error: %s\n" msg);
-            print_newline ()
-            (* |>
-             * match time_format with
-             * | `Plain_human_readable ->
-             *   print_endline "Matching time slots (in above time zone):";
-             *   Seq.iter (fun (x, y) ->
-             *       let x =
-             *         Daypack_lib.Time.To_string
-             *         .yyyymondd_hhmmss_string_of_unix_second
-             *           ~display_using_tz_offset_s:(Some tz_offset_s) x
-             *         |> Result.get_ok
-             *       in
-             *       let y =
-             *         Daypack_lib.Time.To_string
-             *         .yyyymondd_hhmmss_string_of_unix_second
-             *           ~display_using_tz_offset_s:(Some tz_offset_s) y
-             *         |> Result.get_ok
-             *       in
-             *       Printf.printf "[%s, %s)\n" x y)
-             * | `Plain_unix_second ->
-             *   print_endline "Matching time slots:";
-             *   Seq.iter (fun (x, y) -> Printf.printf "[%Ld, %Ld)\n" x y) *) ) )
+          match Timere.Date_time.sprintf format_string
+                  cur_date_time
+          with
+          | Error msg -> Printf.printf "Error: %s\n" msg
+          | Ok start_str ->
+            Printf.printf
+              "Search by default starts from (in above time zone) : %s\n" start_str;
+            print_newline ();
+            match s () with
+            | Seq.Nil -> print_endline "No matching time slots"
+            | Seq.Cons _ ->
+              s
+              |> OSeq.take time_slot_count
+              |> OSeq.iteri (fun i ts ->
+                  match
+                    Timere.sprintf_interval
+                      ~display_using_tz_offset_s:tz_offset_s
+                      format_string
+                      ts
+                  with
+                  | Ok s ->
+                    if i = 0 then Printf.printf "%s" s
+                    else Printf.printf "%s%s" sep s
+                  | Error msg -> Printf.printf "Error: %s\n" msg);
+              print_newline ()
+        )
+    )
 
 let cmd =
   ( (let open Term in
