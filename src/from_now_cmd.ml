@@ -10,16 +10,15 @@ let run (duration_expr : string) : unit =
   | Ok duration ->
     let duration_in_seconds = Timere.Duration.to_seconds duration in
     Printf.printf "Now                   : %s\n"
-      ( Timere.sprintf_timestamp ~display_using_tz_offset_s:Config.tz_offset_s
-          Config.default_date_time_format_string Config.cur_timestamp
-        |> Result.get_ok );
+      ( Timere.sprintf_timestamp ~display_using_tz:Config.cur_tz
+          Config.cur_timestamp
+      );
     Printf.printf "Duration (original)   : %s\n" duration_expr;
     Printf.printf "Duration (normalized) : %s\n"
       (Timere.Duration.sprint duration);
     Printf.printf "Now + duration        : %s\n"
-      ( Timere.sprintf_timestamp ~display_using_tz_offset_s:Config.tz_offset_s
-          Config.default_date_time_format_string
+      ( Timere.sprintf_timestamp ~display_using_tz:Config.cur_tz
           (Int64.add Config.cur_timestamp duration_in_seconds)
-        |> Result.get_ok )
+        )
 
 let cmd = (Term.(const run $ expr_arg), Term.info "from-now")
