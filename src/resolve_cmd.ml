@@ -5,9 +5,9 @@ type time_format =
   | `Plain_unix_second
   ]
 
-let tz_offset_s_arg =
-  let doc = "Time zone offset in seconds" in
-  Arg.(value & opt int Config.tz_offset_s & info [ "tz-offset" ] ~docv:"N" ~doc)
+let tz_arg =
+  let doc = "Time zone" in
+  Arg.(value & opt string Config.tz & info [ "tz" ] ~docv:"N" ~doc)
 
 let search_years_ahead_arg =
   let doc = "Number of years to search ahead" in
@@ -38,39 +38,33 @@ let expr_arg =
   let doc = "Time expression" in
   Arg.(required & pos 0 (some string) None & info [] ~docv:"EXPR" ~doc)
 
-let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
-    (format_string : string) (sep : string) (expr : string) : unit =
+let run (tz : string) (search_years_ahead : int) (time_slot_count : int)
+    (format : string) (sep : string) (expr : string) : unit =
+  match Timere.Time_zone.make tz with
+  | None -> print_endline "Unrecognized time zone"
+  | Some tz ->
   match Timere_parse.timere expr with
   | Error msg -> print_endline msg
   | Ok timere -> (
-      let cur_date_time =
-        Result.get_ok
-        @@ Timere.Date_time.cur ~tz_offset_s_of_date_time:tz_offset_s ()
-      in
-      let search_start_timere =
-        Result.get_ok @@ Timere.of_date_time cur_date_time
-      in
-      let search_end_exc_timere =
-        let open Timere in
-        shift
-          (Result.get_ok @@ Duration.make ~days:(search_years_ahead * 365) ())
-          search_start_timere
+      let search_end_exc =
+        Int64.add
+          Config.cur_timestamp
+          Timere.(Duration.make ~days:(search_years_ahead * 365) () |> Duration.to_seconds)
       in
       let timere =
         let open Timere in
-        inter timere (interval_exc search_start_timere search_end_exc_timere)
+        inter [timere; intervals [(Config.cur_timestamp, search_end_exc)]]
       in
-      match Timere.resolve ~search_using_tz_offset_s:tz_offset_s timere with
+      match Timere.resolve timere with
       | Error msg -> print_endline msg
       | Ok s -> (
-          Printf.printf
-            "Searching in time zone offset (seconds)            : %d\n"
-            tz_offset_s;
-          Printf.printf
-            "Search by default starts from (in above time zone) : %s\n"
-            ( Result.get_ok
-              @@ Timere.Date_time.sprintf Config.default_date_time_format_string
-                cur_date_time );
+          Fmt.pr
+            "Searching in time zone (seconds)            : %s\n"
+            (Timere.Time_zone.name tz);
+          Fmt.pr
+            "Search by default starts from (in above time zone) : %a\n"
+            ( Timere.pp_timestamp ~display_using_tz:tz ~format:Config.default_date_time_format_string ())
+            Config.cur_timestamp;
           print_newline ();
           match s () with
           | Seq.Nil -> print_endline "No matching time slots"
@@ -78,20 +72,19 @@ let run (tz_offset_s : int) (search_years_ahead : int) (time_slot_count : int)
             s
             |> OSeq.take time_slot_count
             |> OSeq.iteri (fun i ts ->
-                match
-                  Timere.sprintf_interval
-                    ~display_using_tz_offset_s:tz_offset_s format_string ts
-                with
-                | Ok s ->
+                let s =
+                  Timere.string_of_interval
+                    ~display_using_tz:tz ~format ts
+                    in
                   if i = 0 then Printf.printf "%s" s
                   else Printf.printf "%s%s" sep s
-                | Error msg -> Printf.printf "Error: %s\n" msg);
+              );
             print_newline () ) )
 
 let cmd =
   ( (let open Term in
      const run
-     $ tz_offset_s_arg
+     $ tz_arg
      $ search_years_ahead_arg
      $ time_slot_count_arg
      $ format_string_arg

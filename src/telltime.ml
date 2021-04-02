@@ -1,6 +1,6 @@
 open Cmdliner
 
-let cmds = [ Now_cmd.cmd; Search_cmd.cmd; From_now_cmd.cmd ]
+let cmds = [ Now_cmd.cmd; Resolve_cmd.cmd; From_now_cmd.cmd ]
 
 let default_cmd =
   (Term.(ret (const (`Help (`Pager, None)))), Term.info "telltime")

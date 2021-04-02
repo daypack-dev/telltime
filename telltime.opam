@@ -15,7 +15,9 @@ depends: [
   "ptime"
   "cmdliner"
   "oseq"
-  "timere" {= "0.0.1"}
+  "timere"
+  "timere-parse"
+  "fmt"
 ]
 build: [
   ["dune" "build" "-p" name "-j" jobs]
