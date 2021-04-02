@@ -60,7 +60,7 @@ let run (tz : string) (search_years_ahead : int) (time_slot_count : int)
           match Timere.resolve timere with
           | Error msg -> print_endline msg
           | Ok s -> (
-              Fmt.pr "Searching in time zone (seconds)            : %s\n"
+              Fmt.pr "Searching in time zone (seconds)                   : %s\n"
                 (Timere.Time_zone.name tz);
               Fmt.pr "Search by default starts from (in above time zone) : %a\n"
                 (Timere.pp_timestamp ~display_using_tz:tz
