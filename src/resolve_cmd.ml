@@ -90,4 +90,4 @@ let cmd =
      $ format_string_arg
      $ sep_arg
      $ expr_arg),
-    Term.info "search" )
+    Term.info "resolve" )
